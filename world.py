@@ -47,7 +47,6 @@ class World:
                 if world_object.check_if_too_old():
                     self.get_all_objects()[self.get_coordinates(world_object)[1]][self.get_coordinates(world_object)[0]] = Thing()
 
-
         self.compute_plants()
         self.compute_animals()
 
@@ -56,10 +55,8 @@ class World:
             for animal in row:
                 if isinstance(animal, Animal):
                     animal_neighbors = self.get_neighbors(animal)
-                    neighbor_position = choice(["upper_neighbor", "right_neighbor", "lower_neighbor", "left_neighbor"])
-                    chosen_neighbor = animal_neighbors[neighbor_position]
+                    chosen_neighbor = animal_neighbors[choice(["upper_neighbor", "right_neighbor", "lower_neighbor", "left_neighbor"])]
                     if isinstance(chosen_neighbor, Plant):
-                        # print("Plant @", self.get_coordinates(chosen_neighbor), "got eaten. (", neighbor_position, ")")
                         self.get_all_objects()[self.get_coordinates(chosen_neighbor)[1]][self.get_coordinates(chosen_neighbor)[0]] = Thing()
 
     def compute_plants(self):

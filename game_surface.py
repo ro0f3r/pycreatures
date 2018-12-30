@@ -23,18 +23,24 @@ class GameSurface:
         self.background_color = self.BLACK
         self.fps = 60
         self.round_no = 0
+        self.sprites = {}
 
         # initialize all necessary pygame stuff
         pygame.init()
         pygame.display.set_caption(self.window_caption)
         self.game_window = pygame.display.set_mode((self.window_width, self.window_width))
         self.game_clock = pygame.time.Clock()
+        self.initialize_sprites()
 
         self.world = World(40, 40)
         self.tile_width = self.window_width // self.world.get_width()
         self.tile_height = self.window_height // self.world.get_height()
         # print(self.tile_width, self.tile_width)
         self.start_game()
+
+    def initialize_sprites(self):
+        self.sprites["plant"] = [pygame.image.load("assets/plant.png")]
+        self.sprites["animal"] = [pygame.image.load("assets/animal.png")]
 
     def start_game(self):
         self.draw_simulation_field()
@@ -57,20 +63,14 @@ class GameSurface:
     def draw_simulation_field(self):
         for row in self.world.get_all_objects():
             for thing in row:
+                x1 = self.world.get_coordinates(thing)[0]
+                x2 = self.world.get_coordinates(thing)[1]
                 if isinstance(thing, Plant):
-                    x1 = self.world.get_coordinates(thing)[0]
-                    x2 = self.world.get_coordinates(thing)[1]
-                    pygame.draw.rect(self.game_window, self.GREEN,
-                                     [x1 * self.tile_width, x2 * self.tile_height, self.tile_width, self.tile_height])
+                    self.game_window.blit(self.sprites["plant"][0], [x1 * self.tile_width, x2 * self.tile_height])
                 elif isinstance(thing, Animal):
-                    x1 = self.world.get_coordinates(thing)[0]
-                    x2 = self.world.get_coordinates(thing)[1]
-                    pygame.draw.rect(self.game_window, self.BROWN,
-                                     [x1 * self.tile_width, x2 * self.tile_height, self.tile_width, self.tile_height])
+                    self.game_window.blit(self.sprites["animal"][0], [x1 * self.tile_width, x2 * self.tile_height])
                 elif isinstance(thing, Thing):
-                    x1 = self.world.get_coordinates(thing)[0]
-                    x2 = self.world.get_coordinates(thing)[1]
-                    pygame.draw.rect(self.game_window, self.BLACK,
+                    pygame.draw.rect(self.game_window, self.WHITE,
                                      [x1 * self.tile_width, x2 * self.tile_height, self.tile_width, self.tile_height])
 
         pygame.display.update()
