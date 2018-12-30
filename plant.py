@@ -1,13 +1,15 @@
-from thing import Thing
+from PyCreatures.thing import Thing
 
 
 class Plant(Thing):
+    MAX_AGE = 5
+    PROBABILITY_TO_SPREAD = 70
+
     def __init__(self):
         super().__init__()
-        self.probability_to_spread = 50
 
     def __str__(self):
         return "$"
 
     def get_probability_to_spread(self):
-        return self.probability_to_spread
+        return self.PROBABILITY_TO_SPREAD

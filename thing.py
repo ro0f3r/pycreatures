@@ -1,4 +1,6 @@
 class Thing:
+    MAX_AGE = 100
+
     def __init__(self):
         self.age = 0
 
@@ -13,4 +15,7 @@ class Thing:
 
     def get_name(self):
         return self.__class__.__name__
+
+    def check_if_too_old(self):
+        return self.age > self.MAX_AGE
 

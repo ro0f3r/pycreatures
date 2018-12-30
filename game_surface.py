@@ -1,9 +1,10 @@
 import pygame
+import time
 
-from world import World
-from plant import Plant
-from thing import Thing
-from animal import Animal
+from PyCreatures.world import World
+from PyCreatures.plant import Plant
+from PyCreatures.thing import Thing
+from PyCreatures.animal import Animal
 
 
 class GameSurface:
@@ -21,6 +22,7 @@ class GameSurface:
         self.window_caption = "PyCreatures"
         self.background_color = self.BLACK
         self.fps = 60
+        self.round_no = 0
 
         # initialize all necessary pygame stuff
         pygame.init()
@@ -43,8 +45,11 @@ class GameSurface:
                         pygame.quit()
                         quit()
                     if event.key == pygame.K_SPACE:
+                        self.round_no += 1
+                        start_time = time.time()
                         self.world.compute_one_year()
                         self.draw_simulation_field()
+                        print("Round #%i took %.2f seconds to compute." % (self.round_no, time.time() - start_time))
                     if event.key == pygame.QUIT:
                         pygame.quit()
                         quit()

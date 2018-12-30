@@ -1,4 +1,4 @@
-from thing import Thing
+from PyCreatures.thing import Thing
 
 
 class Animal(Thing):

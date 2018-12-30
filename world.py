@@ -1,9 +1,9 @@
 from random import choice
 import random as rnd
 
-from thing import Thing
-from plant import Plant
-from animal import Animal
+from PyCreatures.thing import Thing
+from PyCreatures.plant import Plant
+from PyCreatures.animal import Animal
 
 
 class World:
@@ -44,6 +44,10 @@ class World:
         for row in self.get_all_objects():
             for world_object in row:
                 world_object.age += 1
+                if world_object.check_if_too_old():
+                    self.get_all_objects()[self.get_coordinates(world_object)[1]][self.get_coordinates(world_object)[0]] = Thing()
+
+
         self.compute_plants()
         self.compute_animals()
 
@@ -65,24 +69,17 @@ class World:
                     self.spread_plant(plant)
 
     def spread_plant(self, plant):
-        # print(plant.get_name(), self.get_coordinates(plant), sep="\t")
-
         # spread plant with its probability
         if (rnd.random() * 100) < plant.get_probability_to_spread():
             object_neighbors = self.get_neighbors(plant)
+            neighbor_name, neighbor = choice(list(object_neighbors.items()))
 
-            for neighbor_name in object_neighbors:
-                # print(object_neighbors[neighbor_name].get_name(), neighbor_name, "@",
-                    # self.get_coordinates(object_neighbors[neighbor_name]), "age:", object_neighbors[neighbor_name].age,
-                    # sep="\t")
-                if isinstance(object_neighbors[neighbor_name], Thing) \
-                        and not isinstance(object_neighbors[neighbor_name], Plant) \
-                        and not isinstance(object_neighbors[neighbor_name], Animal) and isinstance(plant, Plant):
-                    self.get_all_objects()[self.get_coordinates(object_neighbors[neighbor_name])[1]][
-                        self.get_coordinates(object_neighbors[neighbor_name])[0]] = Plant()
+            if isinstance(neighbor, Thing) \
+                    and not isinstance(neighbor, Plant) \
+                    and not isinstance(neighbor, Animal) and isinstance(plant, Plant):
+                self.get_all_objects()[self.get_coordinates(neighbor)[1]][self.get_coordinates(neighbor)[0]] = Plant()
             else:
-                pass
-                # print(plant.get_name(), "didn't spread.")
+                    pass
 
     def get_neighbors(self, object_from_world):
         """Gets a thing from the world and returns a dictionary containing string keys that describe
