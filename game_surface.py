@@ -35,7 +35,6 @@ class GameSurface:
         self.world = World(40, 40)
         self.tile_width = self.window_width // self.world.get_width()
         self.tile_height = self.window_height // self.world.get_height()
-        # print(self.tile_width, self.tile_width)
         self.start_game()
 
     def initialize_sprites(self):

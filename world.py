@@ -58,6 +58,9 @@ class World:
                     chosen_neighbor = animal_neighbors[choice(["upper_neighbor", "right_neighbor", "lower_neighbor", "left_neighbor"])]
                     if isinstance(chosen_neighbor, Plant):
                         self.get_all_objects()[self.get_coordinates(chosen_neighbor)[1]][self.get_coordinates(chosen_neighbor)[0]] = Thing()
+                    elif isinstance(chosen_neighbor, Thing) and not isinstance(chosen_neighbor, Plant) and not isinstance(chosen_neighbor, Animal):
+                        self.get_all_objects()[self.get_coordinates(chosen_neighbor)[1]][self.get_coordinates(chosen_neighbor)[0]] = animal
+                        self.get_all_objects()[self.get_coordinates(animal)[1]][self.get_coordinates(animal)[0]] = Thing()
 
     def compute_plants(self):
         for row in self.get_all_objects():
